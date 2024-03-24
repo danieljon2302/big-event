@@ -13,4 +13,7 @@ public interface UserService {
 	//更新頭貼
 	void updateAvatar(String avatarUrl);
 
+	//更改密碼
+	void updatePwd(String newPwd);
+
 }

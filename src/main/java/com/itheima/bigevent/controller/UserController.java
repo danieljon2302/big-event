@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.service.annotation.PatchExchange;
 
 import com.itheima.bigevent.pojo.Result;
 import com.itheima.bigevent.pojo.User;
@@ -117,6 +119,35 @@ public class UserController {
 		return Result.success();
 	}
 	
-	
+	@PatchMapping("/updatePwd")
+	public Result updatePwd(@RequestBody Map<String, String> params) {
+		
+//		接收前端傳進來的三個參數
+		String oldPwd = params.get("old_pwd");
+		String newPwd = params.get("new_pwd");
+		String rePwd = params.get("re_pwd");
+		
+//		StringUtils.hasLength用於測試有沒有接收到參數haslength
+		if(!StringUtils.hasLength("oldPwd")||!StringUtils.hasLength("newPwd")||!StringUtils.hasLength("rePwd")) {
+			return Result.error("缺少必要參數");
+		}
+		
+//		藉由在ThreadLocal中儲存的username取得該用戶密碼, 接著繼續比對與使用者輸入的值事否一致
+		Map<String, Object> map = ThreadLocalUtil.get();
+		String username =(String) map.get("username");
+		
+		User loginUser = userService.findByUserName(username);
+		
+		if(!loginUser.getPassword().equals(oldPwd)) {
+			return Result.error("原密碼不正確");
+		}
+		
+		if (!rePwd.equals(newPwd)) {
+			return Result.error("再次輸入的密碼有誤");
+		}
+		
+		userService.updatePwd(newPwd);
+		return Result.success();
+	}
 	
 }

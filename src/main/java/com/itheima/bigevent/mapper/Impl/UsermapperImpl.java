@@ -32,4 +32,10 @@ public class UsermapperImpl implements UserMapper {
 		
 	}
 
+	@Override
+	public void updatePwd(String newPwd, Integer id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -51,4 +51,14 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+	@Override
+	public void updatePwd(String newPwd) {
+		
+		Map<String, Object> map = ThreadLocalUtil.get();
+		Integer id = (Integer) map.get("id");
+		//之後用md5util來加／解密
+		userMapper.updatePwd(newPwd, id);
+		
+	}
+
 }
