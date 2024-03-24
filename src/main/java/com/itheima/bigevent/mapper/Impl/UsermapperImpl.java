@@ -26,4 +26,10 @@ public class UsermapperImpl implements UserMapper {
 		
 	}
 
+	@Override
+	public void updateAvatar(String avatarUrl, Integer id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
