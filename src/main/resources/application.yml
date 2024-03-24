@@ -1,6 +1,13 @@
+#後面給的值在前方都一定要加一個space鍵
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/big_event
     username: root
     password: qweasd8426
+    
+#當sql中的欄位命名方式為下底線命名ex:create_datetime, 而映射類的屬性為駝峰式命名createDatetime
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true

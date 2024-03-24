@@ -2,6 +2,8 @@ package com.itheima.bigevent.pojo;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
@@ -9,6 +11,8 @@ public class User {
 	
 	private Integer id;
 	private String username;
+	//此註解為：可將返回的table中的敏感資訊ex:password屏蔽
+	@JsonIgnore
 	private String password;
 	private String nickname;
 	private String email;

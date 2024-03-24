@@ -8,6 +8,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 
 public class JwtUtil {
 
+	//此為“自行設置”的密鑰名字, 一定不能告訴任何人, 要不然可以透過此密鑰進行修改jwt內容!!!
 	private static final String KEY = "itheima";
 	
 	//接收業務數據,生成token
