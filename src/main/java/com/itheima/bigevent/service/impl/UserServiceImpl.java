@@ -1,5 +1,7 @@
 package com.itheima.bigevent.service.impl;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,12 @@ public class UserServiceImpl implements UserService {
 		// 不用autowired, 用import即可
 		
 		userMapper.add(username, password);
+	}
+
+	@Override
+	public void update(User user) {
+		user.setUpdateTime(LocalDateTime.now());
+		userMapper.update(user);
 	}
 
 }

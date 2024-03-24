@@ -20,4 +20,10 @@ public class UsermapperImpl implements UserMapper {
 		
 	}
 
+	@Override
+	public void update(User user) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
