@@ -25,6 +25,5 @@ public interface UserMapper {
 
 	@Update("update user set password=#{newPwd}, update_time=now() where id=#{id}")
 	void updatePwd(String newPwd, Integer id);
-	
 
 }
