@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itheima.bigevent.pojo.Category;
+import com.itheima.bigevent.pojo.Category.Update;
 import com.itheima.bigevent.pojo.Result;
 import com.itheima.bigevent.service.CategoryService;
 
@@ -24,7 +26,7 @@ public class CategoryController {
 	private CategoryService categoryService;
 
 	@PostMapping
-	public Result add(@RequestBody @Validated Category category) {
+	public Result add(@RequestBody @Validated(Category.Add.class) Category category) {
 		categoryService.add(category);
 		return Result.success();
 	}
@@ -40,5 +42,11 @@ public class CategoryController {
 		//id為文章分類id, 非userId
 		Category c = categoryService.findById(id);
 		return Result.success(c);
+	}
+	
+	@PutMapping
+	public Result update(@RequestBody @Validated(Category.Update.class) Category category){
+		categoryService.update(category);
+		return Result.success();
 	}
 }

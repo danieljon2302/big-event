@@ -12,5 +12,7 @@ public interface CategoryService {
 	List<Category> list();
 //	根據id查詢分類訊息
 	Category findById(Integer id);
+//	更新分類
+	void update(Category category);
 
 }
