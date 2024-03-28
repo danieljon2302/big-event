@@ -12,7 +12,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
-public class Artical {
+public class Article {
 	
 	private Integer id;
 	@NotEmpty
