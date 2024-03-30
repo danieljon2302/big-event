@@ -2,9 +2,12 @@ package com.itheima.bigevent.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +36,8 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private StringRedisTemplate stringRedisTemplate;
 
 	//註冊
 	//之後將邏輯判斷放到Service層
@@ -72,6 +77,9 @@ public class UserController {
 			claims.put("username", loginUser.getUsername());
 			
 			String token = JwtUtil.genToken(claims);
+			//將token存到redis中
+			ValueOperations<String, String> Operations= stringRedisTemplate.opsForValue(); 
+			Operations.set(token, token, 1, TimeUnit.HOURS);
 			
 			return Result.success(token);
 		}
@@ -120,7 +128,7 @@ public class UserController {
 	}
 	
 	@PatchMapping("/updatePwd")
-	public Result updatePwd(@RequestBody Map<String, String> params) {
+	public Result updatePwd(@RequestBody Map<String, String> params, @RequestHeader("Authorization")String token) {
 		
 //		接收前端傳進來的三個參數
 		String oldPwd = params.get("old_pwd");
@@ -147,6 +155,10 @@ public class UserController {
 		}
 		
 		userService.updatePwd(newPwd);
+		//將存有舊密碼的token刪除-> 到參數中加入變數token( 此token由requestHeader中的屬性"Authorization"獲得)
+		ValueOperations<String, String>  operations = stringRedisTemplate.opsForValue();
+		operations.getOperations().delete(token);
+		
 		return Result.success();
 	}
 	
